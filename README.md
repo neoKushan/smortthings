@@ -9,10 +9,17 @@ Add this repo as a source in **Morphe Manager** — no sideloading:
 Or add the URL manually in Morphe Manager: `https://github.com/neoKushan/smortthings`
 
 A **[Morphe](https://morphe.software) patch** for the official Samsung **SmartThings / OneConnect**
-Android app. After you pair a supported device, it shows that device's **OwnerPSK** (the credential
+Android app. It surfaces a device's **OwnerPSK** (the credential
 [Home Assistant LocalThings](https://github.com/mbillow/localthings) needs for local control) on the
 device's **Edit** screen, each value tap-to-copy. The key is extracted **on-device, reusing the
 app's own key store** — nothing is sent anywhere, and no root is required.
+
+> ⚠️ **This is not automatic for devices you already have.** The patch can only show a key that the
+> app has *already stored locally*. SmartThings stores that local key when it onboards a device for
+> local control — which most existing devices in your account have **not** done. In practice you
+> will usually have to **remove a device and add it again through the patched app** before its key
+> appears. A device that shows *"No local key for this device yet."* just means the app holds no
+> local key for it — re-add it (see [step 5](#5-no-key-re-add-the-device)).
 
 > **Proof of concept.** Developed against **SmartThings 1.8.52.23** and tested on a single
 > **Samsung HW-Q950A** soundbar. It may not work on other models, firmware, or app versions. The
@@ -65,10 +72,19 @@ file in Morphe Manager instead.
 4. In Home Assistant **[LocalThings](https://github.com/mbillow/localthings)**, add the device with
    its **IP address** and paste the **Owner PSK**.
 
-> **Which devices show a key?** Only devices that were **locally onboarded with an OwnerPSK** (an
-> OCF `credtype:1` record in the app's store) will show one. A device with no local key shows
-> *"No local key for this device yet."* — that is expected, not a bug; it means the app holds no
-> local OwnerPSK for it.
+### 5. No key? Re-add the device
+
+If the LocalThings section shows *"No local key for this device yet."*, SmartThings has no local
+key stored for that device — almost always because it was added to your account **without** local
+onboarding. To create one:
+
+1. In SmartThings, **remove / delete the device** from your account.
+2. **Add it again** from inside the (patched) SmartThings app, letting it onboard normally.
+3. Re-open the device's **Edit** screen — the **Owner PSK** should now be there.
+
+> **Why:** the patch only *reads* a key the app already holds; it cannot create one. Only devices
+> **locally onboarded** (which stores an OCF `credtype:1` OwnerPSK) have a key to show. Devices that
+> only support cloud control will never show one, even after re-adding.
 
 ## Patches
 
