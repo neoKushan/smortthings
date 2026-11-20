@@ -73,9 +73,11 @@ file in Morphe Manager instead.
 ## Patches
 
 <!-- PATCHES_START -->
+> **[v1.0.0](https://github.com/neoKushan/smortthings/releases/tag/v1.0.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patches** across **1 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
-<!-- A list of your patches is generated here when release.yml creates a release. -->
-
+| # | App | Patches | Version | Package |
+|---|---|---|---|---|
+| 1 | [**SmartThings**](PATCHES.md#smartthings-comsamsungandroidoneconnect) | 1 | `1.8.52.23` | [`com.samsung.android.oneconnect`](https://play.google.com/store/apps/details?id=com.samsung.android.oneconnect) |
 <!-- PATCHES_END -->
 
 ## How it works
