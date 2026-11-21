@@ -21,9 +21,11 @@ app's own key store** — nothing is sent anywhere, and no root is required.
 > appears. A device that shows *"No local key for this device yet."* just means the app holds no
 > local key for it — re-add it (see [step 5](#5-no-key-re-add-the-device)).
 
-> **Proof of concept.** Developed against **SmartThings 1.8.52.23** and tested on a single
-> **Samsung HW-Q950A** soundbar. It may not work on other models, firmware, or app versions. The
-> repository is provided as-is.
+> **Proof of concept.** Developed and author-tested against **SmartThings 1.8.52.23** on a
+> **Samsung HW-Q950A** soundbar. Community members have since reported it working on other classes —
+> **HW-Q990C / HW-Q850A soundbars, a Samsung TV (S95B), and a Family Hub fridge (Tizen)** — but
+> those are user reports, not author-verified. It may not work on every model, firmware, or app
+> version. Provided as-is.
 
 ## What this is (and is not)
 
@@ -75,12 +77,23 @@ file in Morphe Manager instead.
 ### 5. No key? Re-add the device
 
 If the LocalThings section shows *"No local key for this device yet."*, SmartThings has no local
-key stored for that device — almost always because it was added to your account **without** local
-onboarding. To create one:
+key stored **on this phone** for that device — usually because the device was added to your account
+without local onboarding, or onboarded from a *different* phone. To create one:
 
-1. In SmartThings, **remove / delete the device** from your account.
-2. **Add it again** from inside the (patched) SmartThings app, letting it onboard normally.
+1. In SmartThings, **remove / delete the device** from your account
+   (Devices → ⋮ → Device management → select → remove).
+2. **Add it again from this same phone**, through the (patched) SmartThings app, letting it onboard
+   normally. The key is written to the phone that does the onboarding, so it must be the phone you
+   read it from.
 3. Re-open the device's **Edit** screen — the **Owner PSK** should now be there.
+
+A few things reported by other users:
+
+- A **full factory reset is usually not needed** — removing the device from your account and
+  re-adding it is enough (removal releases ownership; re-onboarding rewrites the key). Reset only if
+  re-adding still produces no key.
+- If re-adding **loops on "something went wrong" / registration errors**, add the device to a
+  **new Location** — that has unblocked several people.
 
 > **Why:** the patch only *reads* a key the app already holds; it cannot create one. Only devices
 > **locally onboarded** (which stores an OCF `credtype:1` OwnerPSK) have a key to show. Devices that
