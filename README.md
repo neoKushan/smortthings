@@ -64,6 +64,12 @@ file in Morphe Manager instead.
    - If a different-signed SmartThings is already installed, Manager will offer to reinstall it;
      your SmartThings login and paired devices are preserved across a same-source update.
 
+> **On a Samsung phone?** If the install fails with
+> `INSTALL_FAILED_DUPLICATE_PERMISSION` (SmartThings declares permissions that Samsung's own
+> system apps already own), also tick the **"Allow install on Samsung phones"** patch and
+> re-patch. It removes those duplicate permission *declarations* so the app installs; the app
+> still *uses* them. It's off by default and unnecessary on non-Samsung phones.
+
 ### 4. Read a device's Owner PSK
 
 1. Open the **patched SmartThings**, make sure your device is **paired and shown**.
