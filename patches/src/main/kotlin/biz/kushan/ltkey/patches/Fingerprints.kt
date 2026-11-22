@@ -32,3 +32,17 @@ object IsSamsungDeviceFingerprint : Fingerprint(
     parameters = emptyList(),
     strings = listOf("samsung", "Nexus"),
 )
+
+/**
+ * `com.osp.app.signin.sasdk.common.Util.isStandAloneSaAppInstalled(Context)` — the bundled Samsung
+ * Account SDK's gate for whether to hand sign-in to the on-device Samsung Account app's
+ * `WebSdkActivity` (which signature-checks the caller and rejects a re-signed app) or open a browser
+ * Custom Tab (which authenticates the user and works for a re-signed app). The SDK keeps its original
+ * names, so we pin the full descriptor; it fails closed if a future build ships a different SDK.
+ */
+object SaSdkStandAloneAppFingerprint : Fingerprint(
+    definingClass = "Lcom/osp/app/signin/sasdk/common/Util;",
+    name = "isStandAloneSaAppInstalled",
+    returnType = "Z",
+    parameters = listOf("Landroid/content/Context;"),
+)

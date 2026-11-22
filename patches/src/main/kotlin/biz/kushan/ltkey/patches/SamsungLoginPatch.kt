@@ -5,18 +5,21 @@ import app.morphe.patcher.patch.patch
 import biz.kushan.ltkey.patches.shared.Constants.COMPATIBILITY_SMARTTHINGS
 
 /**
- * Opt-in fix for signing in to the patched app on Samsung phones.
+ * Opt-in fix for signing in to the patched app on Samsung phones. Takes two bytecode nudges, both
+ * on un-ambiguous targets that fail closed on other builds:
  *
- * SmartThings picks its login flow from `mm.e.g()` — "is this a Samsung device". On Samsung it uses
- * the on-device Samsung Account, authenticating with `client_secret = "USING_CLIENT_PACKAGE_INFORMATION"`,
- * i.e. Samsung's server validates the app's *signing certificate*. A Morphe-resigned app has a
- * different certificate, so that path fails ("Samsung account is already logged in on this phone" /
- * "login failed"). On non-Samsung phones the app uses the "Ged" web-OAuth flow at account.samsung.com,
- * which authenticates the user — not the APK signature — and so works for a re-signed app. (This is
- * the exact flow Pixel users already use to sign in, onboard Samsung devices, and read the key.)
+ * 1. `mm.e.g()` ("is this a Samsung device") → false. SmartThings picks its login flow from this:
+ *    true routes to the on-device Samsung Account (which validates the APK signing certificate and so
+ *    rejects a Morphe-resigned app), false routes to the "Ged" web flow at account.samsung.com that
+ *    authenticates the *user*, not the signature. Forcing false makes a Samsung phone take the web
+ *    path — the exact flow Pixel users already use to sign in, onboard, and read the key.
  *
- * This forces `mm.e.g()` to return false, so every sign-in site takes the working web path. The app
- * otherwise behaves as its non-Samsung variant, which is the proven-working configuration.
+ * 2. `com.osp.app.signin.sasdk.common.Util.isStandAloneSaAppInstalled(Context)` → false. Within that
+ *    web flow, the bundled Samsung Account SDK still hands off to the Samsung Account app's
+ *    `WebSdkActivity` when it is installed (every Galaxy) — and that activity signature-checks the
+ *    caller and finishes ("Calling package has not available signature"). Forcing this false makes
+ *    the SDK open the browser Custom Tab instead, the same branch non-Samsung devices use, which
+ *    authenticates the user and completes.
  *
  * Off by default, and only useful together with "Allow install on Samsung phones". Experimental:
  * developed without a Samsung device to test on.
@@ -33,9 +36,17 @@ val samsungLoginPatch = patch(
     compatibleWith(COMPATIBILITY_SMARTTHINGS)
 
     execute {
-        // Return false from mm.e.g() ("is Samsung device") so the sign-in branches choose the Ged
-        // web-OAuth path instead of the on-device Samsung Account path that checks the APK signature.
+        // (1) mm.e.g() ("is Samsung device") → false, so sign-in takes the Ged web path, not native.
         IsSamsungDeviceFingerprint.method.addInstructions(
+            0,
+            """
+                const/4 v0, 0x0
+                return v0
+            """,
+        )
+        // (2) isStandAloneSaAppInstalled() → false, so the Samsung Account SDK opens the browser
+        // Custom Tab instead of the Samsung Account app's signature-checking WebSdkActivity.
+        SaSdkStandAloneAppFingerprint.method.addInstructions(
             0,
             """
                 const/4 v0, 0x0
