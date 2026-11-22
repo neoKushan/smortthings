@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/neoKushan/smortthings/compare/v1.3.0...v1.3.1) (2026-11-22)
+
+### 🐛 Bug Fixes
+
+* avoid device-open crash on Samsung (skip signature-protected keyboard provider query) ([e36c3b7](https://github.com/neoKushan/smortthings/commit/e36c3b7e09276426dd672b5bded1822c436ebfc3))
+
 ## [1.3.0](https://github.com/neoKushan/smortthings/compare/v1.2.0...v1.3.0) (2026-11-22)
 
 ### ✨ New Features
