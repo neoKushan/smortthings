@@ -113,11 +113,11 @@ A few things reported by other users:
 ## Patches
 
 <!-- PATCHES_START -->
-> **[v1.1.0](https://github.com/neoKushan/smortthings/releases/tag/v1.1.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**2 patches** across **1 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.2.0](https://github.com/neoKushan/smortthings/releases/tag/v1.2.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**3 patches** across **1 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**SmartThings**](PATCHES.md#smartthings-comsamsungandroidoneconnect) | 2 | `1.8.52.23` | [`com.samsung.android.oneconnect`](https://play.google.com/store/apps/details?id=com.samsung.android.oneconnect) |
+| 1 | [**SmartThings**](PATCHES.md#smartthings-comsamsungandroidoneconnect) | 3 | `1.8.52.23` | [`com.samsung.android.oneconnect`](https://play.google.com/store/apps/details?id=com.samsung.android.oneconnect) |
 <!-- PATCHES_END -->
 
 ## How it works

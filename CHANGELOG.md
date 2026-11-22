@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/neoKushan/smortthings/compare/v1.1.0...v1.2.0) (2026-11-22)
+
+### ✨ New Features
+
+* add opt-in 'Use web login on Samsung phones' patch ([6a1d2e8](https://github.com/neoKushan/smortthings/commit/6a1d2e85f0cab78c7228053c0625c9255967049f))
+
 ## [1.1.0](https://github.com/neoKushan/smortthings/compare/v1.0.1...v1.1.0) (2026-11-22)
 
 ### ✨ New Features
