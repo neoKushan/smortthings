@@ -46,3 +46,19 @@ object SaSdkStandAloneAppFingerprint : Fingerprint(
     returnType = "Z",
     parameters = listOf("Landroid/content/Context;"),
 )
+
+/**
+ * `com.samsung.android.oneconnect.connectionsupport.util.a.e(Context)` — reads a "high contrast
+ * keyboard" accessibility flag by querying Samsung Keyboard's `KeyboardSettingsProvider`, which is
+ * guarded by the signature permission `com.samsung.android.honeyboard.permission.KEYBOARD_SETTING`.
+ * A re-signed app can't hold it, so the query throws `SecurityException` and crashes the device web
+ * plugin on open. It's the only unguarded foreign-provider read on the device-open init path.
+ * Pinned by the distinctive string so it hits only this method and fails closed on other builds.
+ */
+object KeyboardSettingsQueryFingerprint : Fingerprint(
+    definingClass = "Lcom/samsung/android/oneconnect/connectionsupport/util/a;",
+    name = "e",
+    returnType = "Z",
+    parameters = listOf("Landroid/content/Context;"),
+    strings = listOf("high_contrast_keyboard"),
+)

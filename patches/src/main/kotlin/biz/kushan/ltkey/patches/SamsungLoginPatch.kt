@@ -21,16 +21,22 @@ import biz.kushan.ltkey.patches.shared.Constants.COMPATIBILITY_SMARTTHINGS
  *    the SDK open the browser Custom Tab instead, the same branch non-Samsung devices use, which
  *    authenticates the user and completes.
  *
+ * 3. `connectionsupport.util.a.e(Context)` → false. Once signed in, opening a device loads the web
+ *    plugin, which reads a "high contrast keyboard" flag from Samsung Keyboard's provider — guarded
+ *    by a signature permission a re-signed app can't hold, so the query throws `SecurityException`
+ *    and crashes the plugin process. Forcing this false skips that read (the flag only toggles a
+ *    cosmetic), so devices open normally.
+ *
  * Off by default, and only useful together with "Allow install on Samsung phones". Experimental:
  * developed without a Samsung device to test on.
  */
 @Suppress("unused")
 val samsungLoginPatch = patch(
     name = "Use web login on Samsung phones",
-    description = "Forces the non-Samsung (web) Samsung Account login so the re-signed app can sign " +
-        "in on a Samsung phone. Enable it alongside \"Allow install on Samsung phones\" if login " +
-        "fails with \"Samsung account is already logged in\" / \"login failed\". Unnecessary on " +
-        "non-Samsung phones.",
+    description = "Lets the re-signed app sign in and open devices on a Samsung phone: forces the " +
+        "non-Samsung web Samsung Account login and skips Samsung signature-protected calls the " +
+        "re-signed app can't make. Enable it alongside \"Allow install on Samsung phones\" if login " +
+        "fails or devices crash on open. Unnecessary on non-Samsung phones.",
     default = false,
 ) {
     compatibleWith(COMPATIBILITY_SMARTTHINGS)
@@ -47,6 +53,15 @@ val samsungLoginPatch = patch(
         // (2) isStandAloneSaAppInstalled() → false, so the Samsung Account SDK opens the browser
         // Custom Tab instead of the Samsung Account app's signature-checking WebSdkActivity.
         SaSdkStandAloneAppFingerprint.method.addInstructions(
+            0,
+            """
+                const/4 v0, 0x0
+                return v0
+            """,
+        )
+        // (3) connectionsupport.util.a.e() → false, skipping the Samsung Keyboard provider query that
+        // throws SecurityException and crashes the device web plugin on open.
+        KeyboardSettingsQueryFingerprint.method.addInstructions(
             0,
             """
                 const/4 v0, 0x0
