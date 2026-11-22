@@ -64,16 +64,18 @@ file in Morphe Manager instead.
    - If a different-signed SmartThings is already installed, Manager will offer to reinstall it;
      your SmartThings login and paired devices are preserved across a same-source update.
 
-> **On a Samsung phone?** Two opt-in patches help, both off by default and unnecessary on
-> non-Samsung phones:
-> - **"Allow install on Samsung phones"** — if install fails with
->   `INSTALL_FAILED_DUPLICATE_PERMISSION` (SmartThings declares permissions Samsung's own system
->   apps already own). It removes those duplicate permission *declarations*; the app still *uses*
->   them.
-> - **"Use web login on Samsung phones"** — if, after installing, login fails with *"Samsung account
->   is already logged in"* / *"login failed"*. The on-device Samsung Account checks the app's
->   signature, which a re-signed app fails; this forces the web login that works on non-Samsung
->   phones. *Experimental — developed without a Samsung device to test on.*
+> **On a Samsung phone? Enable _both_ of these** (on top of "LocalThings Owner PSK"). They're off by
+> default and do nothing on non-Samsung phones, but a Galaxy needs both to get through install,
+> login, and opening a device — because the app is re-signed and Samsung hard-checks the signature
+> in several places:
+> - **"Allow install on Samsung phones"** — fixes `INSTALL_FAILED_DUPLICATE_PERMISSION` by removing
+>   the duplicate permission *declarations* Samsung's own system apps already own (the app still
+>   *uses* them).
+> - **"Use web login on Samsung phones"** — forces the web (`account.samsung.com`) login the
+>   re-signed app can complete (the on-device Samsung Account rejects its signature), **and** skips a
+>   Samsung Keyboard provider read that otherwise crashes the app when you open a device.
+>
+> Confirmed working end to end on a Galaxy **S23** and **S25+** (One UI / Android 17).
 
 ### 4. Read a device's Owner PSK
 
@@ -194,6 +196,14 @@ build:
   nothing over showing a wrong value.
 - **Version-pinned** to 1.8.52.23; fingerprints fail-closed on other builds.
 - Tested on one device only — the guards exist because other device classes are unvalidated.
+
+## Thanks
+
+The Samsung-phone support (install, web login, and the device-open crash fix) was worked out with
+the on-device logcats and testing of **[@msburgess3200](https://github.com/msburgess3200)** and
+**[@zoubek797](https://github.com/zoubek797)** — none of it would have been possible without them,
+as the author has no Samsung hardware to test on. The broader credential-acquisition research lives
+in the [mbillow/localthings](https://github.com/mbillow/localthings) community (issue #435).
 
 ## License
 
