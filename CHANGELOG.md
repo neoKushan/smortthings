@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/neoKushan/smortthings/compare/v1.2.0...v1.3.0) (2026-11-22)
+
+### ✨ New Features
+
+* web-login patch also forces the Samsung Account SDK down the browser path ([e7703d9](https://github.com/neoKushan/smortthings/commit/e7703d9a7ed51643604bc76a2450517251363d4b))
+
 ## [1.2.0](https://github.com/neoKushan/smortthings/compare/v1.1.0...v1.2.0) (2026-11-22)
 
 ### ✨ New Features
