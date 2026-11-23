@@ -123,7 +123,7 @@ A few things reported by other users:
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**SmartThings**](PATCHES.md#smartthings-comsamsungandroidoneconnect) | 3 | `1.8.52.23` | [`com.samsung.android.oneconnect`](https://play.google.com/store/apps/details?id=com.samsung.android.oneconnect) |
+| 1 | [**SmartThings**](PATCHES.md#smartthings-comsamsungandroidoneconnect) | 3 | `1.8.54.23`, `1.8.52.23` | [`com.samsung.android.oneconnect`](https://play.google.com/store/apps/details?id=com.samsung.android.oneconnect) |
 <!-- PATCHES_END -->
 
 ## How it works
